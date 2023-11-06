@@ -1,16 +1,29 @@
 #!/usr/bin/python3
+import json
+
+
 class FileStorage:
-    def __init__(self) -> None:
-        pass
+    __file_path = "file.json"
+    __objects = {}
 
     def all(self):
-        pass
+        return self.__objects
 
     def new(self, obj):
-        pass
+        class_name = obj.__class__.__name__
+        id = obj.id
+        self.__objects["{}.{}".format(class_name, id)] = obj
 
     def save(self):
-        pass
+        obj = {k: v.to_dict() for k, v in self.__objects.items()}
+        with open(self.__file_path, "w") as file:
+            json.dump(obj, file)
 
     def reload(self):
-        pass
+        try:
+            with open(self.__file_path, "r") as file:
+                obj: dict = json.load(file)
+                for v in obj.values():
+                    self.new(eval(v["__name__"])(**v))
+        except FileNotFoundError:
+            pass
