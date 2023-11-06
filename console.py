@@ -3,12 +3,15 @@ import cmd
 
 
 class HBNBCommand(cmd.Cmd):
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
 
     def do_quit(self, line):
-        pass
+        return True
 
     def do_EOF(self, line):
+        return True
+
+    def emptyline(self):
         pass
 
     def do_create(self, line):
