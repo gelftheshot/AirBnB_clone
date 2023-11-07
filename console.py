@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 import cmd
 import models
+import re
 from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
-    __cl = "BaseModel"
+    __cl = ("BaseModel", "User")
 
     prompt = "(hbnb) "
 
@@ -70,7 +72,8 @@ class HBNBCommand(cmd.Cmd):
         else:
             id = "{}.{}".format(args[0], args[1])
             key = args[2]
-            val = args[3].strip('"')
+            val = self.__handle_quote(" ".join(args[3:]))
+            print(val)
             if key in obj[id].__dict__.keys():
                 try:
                     val = type(obj[id].__dict__[key])(val)
@@ -102,6 +105,13 @@ class HBNBCommand(cmd.Cmd):
                 return "** value missing **"
 
         return ""
+
+    def __handle_quote(self, string):
+        res = re.search(r'"(.*?)"', string)
+        if res:
+            return res.group(1)
+        else:
+            return string.split()[0]
 
 
 if __name__ == "__main__":
