@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -22,8 +23,8 @@ class FileStorage:
     def reload(self):
         try:
             with open(self.__file_path, "r") as file:
-                obj: dict = json.load(file)
+                obj = json.load(file)
                 for v in obj.values():
-                    self.new(eval(v["__name__"])(**v))
+                    self.new(eval(v["__class__"])(**v))
         except FileNotFoundError:
             pass
