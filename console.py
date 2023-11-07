@@ -133,6 +133,33 @@ class HBNBCommand(cmd.Cmd):
                     models.storage.save()
                 except ValueError:
                     print("Invalid value for {}".format(key))
+    def do_count(self, line):
+        """
+        Counts the number of instances of a class.
+
+        Args:
+            line (str): The input line from the console, should contain the class name.
+        """
+    def do_count(self, line):
+        """
+        Counts the number of instances of a class.
+
+        Args:
+            line (str): The input line from the console, should contain the class name.
+        """
+        args = line.split()
+        if not args:
+            print("** class name missing **")
+            return
+        try:
+            count = 0
+            for obj in models.storage.all().values():
+                if obj.__class__.__name__ == args[0]:
+                    count += 1
+            print(count)
+        except KeyError:
+            print("** class doesn't exist **")
+
     def default(self, line: str):
         """
         Default method for command line. Handles the commands in the format <class name>.<command>(<parameters>).
