@@ -18,12 +18,30 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def do_quit(self, line):
+        """
+        Quits the console.
+
+        Args:
+            line: Any arguments passed to the quit command. Not used in this method.
+        """
         return True
 
     def do_EOF(self, line):
+        """
+        Handles the EOF (End of File) signal to quit the console.
+
+        Args:
+            line: Any arguments passed to the EOF command. Not used in this method.
+        """
         return True
 
     def emptyline(self):
+        """
+        Handles the event when an empty line is entered in response to the prompt.
+
+        If this method is not overridden, it repeats the last nonempty command entered.
+        However, if overridden, it performs a specific action. In this case, it does nothing.
+        """
         pass
 
     def do_create(self, line):
@@ -36,6 +54,12 @@ class HBNBCommand(cmd.Cmd):
             models.storage.save()
 
     def do_show(self, line):
+        """
+        Prints the string representation of an instance based on the class name and id.
+
+        Args:
+            line (str): The input line from the console, should contain the class name and id.
+        """
         args = line.split()
         obj = models.storage.all()
         err_str = self.__handle_err(args, 0, obj.keys())
@@ -46,6 +70,12 @@ class HBNBCommand(cmd.Cmd):
             print(obj[id])
 
     def do_destroy(self, line):
+        """
+        Deletes an instance based on the class name and id.
+
+        Args:
+            line (str): The input line from the console, should contain the class name and id.
+        """
         args = line.split()
         obj = models.storage.all()
         err_str = self.__handle_err(args, 0, obj.keys())
@@ -57,19 +87,35 @@ class HBNBCommand(cmd.Cmd):
             models.storage.save()
 
     def do_all(self, line):
+        """
+        Prints all instances of a class.
+
+        Args:
+            line (str): The input line from the console, should contain the class name.
+        """
         args = line.split()
-        err_str = self.__handle_err(args, 1)
-        if err_str:
-            print(err_str)
+        if not args:
+            for obj in models.storage.all().values():
+                print(obj.__str__())
         else:
-            cls_strs = [
-                x.__str__()
-                for x in models.storage.all().values()
-                if x.__class__.__name__ == args[0]
-            ]
-            print(cls_strs)
+            err_str = self.__handle_err(args, 1)
+            if err_str:
+                print(err_str)
+            else:
+                cls_strs = [
+                    x.__str__()
+                    for x in models.storage.all().values()
+                    if x.__class__.__name__ == args[0]
+                ]
+                print(cls_strs)
 
     def do_update(self, line):
+        """
+        Updates an instance based on the class name and id by adding or updating attribute.
+
+        Args:
+            line (str): The input line from the console, should contain the class name, id, attribute name, and attribute value.
+        """
         args = line.split()
         obj = models.storage.all()
         err_str = self.__handle_err(args, 4, obj.keys())
@@ -87,6 +133,38 @@ class HBNBCommand(cmd.Cmd):
                     models.storage.save()
                 except ValueError:
                     print("Invalid value for {}".format(key))
+    def default(self, line: str):
+        """
+        Default method for command line. Handles the commands in the format <class name>.<command>(<parameters>).
+
+        Args:
+            line (str): The input line from the console.
+        """
+        args = line.split(".")
+        if len(args) > 1:
+            if args[1] == "all()":
+                self.do_all(args[0])
+            elif args[1] == "count()":
+                self.do_count(args[0])
+            elif args[1][:5] == "show(":
+                self.do_show(args[0] + " " + args[1][5:-1])
+            elif args[1][:8] == "destroy(":
+                self.do_destroy(args[0] + " " + args[1][8:-1])
+            elif args[1][:7] == "update(":
+                args[1] = args[1][7:-1]
+                args[1] = args[1].replace(", ", " ")
+                args[1] = args[1].replace(",\"", " \"")
+                args[1] = args[1].replace(")", " )")
+                args[1] = args[1].replace("\"", "\\\"")
+                self.do_update(args[0] + " " + args[1])
+            else:
+                print("*** Unknown syntax: {}".format(line))
+        else:
+            print("*** Unknown syntax: {}".format(line))
+
+    def do_EOF(self, line):
+        """EOF command to exit the program\n"""
+        return True
 
     def __handle_err(self, args, ac, ins_list=None):
         if not args:
@@ -118,7 +196,7 @@ class HBNBCommand(cmd.Cmd):
             return res.group(1)
         else:
             return string.split()[0]
-
+    
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
