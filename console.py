@@ -20,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, line):
         args = line.split()
-        err_str, _ = self.__handle_err(args, 1)
+        err_str = self.__handle_err(args, 1)
         if err_str:
             print(err_str)
         else:
@@ -29,7 +29,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         args = line.split()
-        err_str, obj = self.__handle_err(args, 0)
+        obj = models.storage.all()
+        err_str = self.__handle_err(args, 0, obj.keys())
         if err_str:
             print(err_str)
         else:
@@ -38,7 +39,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         args = line.split()
-        err_str, obj = self.__handle_err(args, 0)
+        obj = models.storage.all()
+        err_str = self.__handle_err(args, 0, obj.keys())
         if err_str:
             print(err_str)
         else:
@@ -48,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         args = line.split()
-        err_str, _ = self.__handle_err(args, 1)
+        err_str = self.__handle_err(args, 1)
         if err_str:
             print(err_str)
         else:
@@ -61,13 +63,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         args = line.split()
-        err_str, obj = self.__handle_err(args, 0)
+        obj = models.storage.all()
+        err_str = self.__handle_err(args, 4, obj.keys())
         if err_str:
             print(err_str)
-        elif len(args) == 2:
-            print("** attribute name missing **")
-        elif len(args) == 3:
-            print("** value missing **")
         else:
             id = "{}.{}".format(args[0], args[1])
             key = args[2]
@@ -80,24 +79,29 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     print("Invalid value for {}".format(key))
 
-    def __handle_err(self, args, ac):
+    def __handle_err(self, args, ac, ins_list=None):
         if not args:
-            return ("** class name missing **", None)
+            return "** class name missing **"
         if args[0] not in self.__cl:
-            return ("** class doesn't exist **", None)
+            return "** class doesn't exist **"
 
         if ac == 1:
-            return ("", None)
+            return ""
 
         if len(args) == 1:
-            return ("** instance id missing **", None)
+            return "** instance id missing **"
 
         id = "{}.{}".format(args[0], args[1])
-        obj = models.storage.all()
-        if id not in obj.keys():
-            return ("** no instance found **", None)
+        if id not in ins_list:
+            return "** no instance found **"
 
-        return ("", obj)
+        if ac == 4:
+            if len(args) == 2:
+                return "** attribute name missing **"
+            if len(args) == 3:
+                return "** value missing **"
+
+        return ""
 
 
 if __name__ == "__main__":
