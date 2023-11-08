@@ -45,6 +45,12 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
+        """
+        Creates a new instance of a given class, saves it to the JSON file, and prints its id.
+
+        Args:
+            line (str): The input line from the console. It should contain the class name.
+        """
         args = line.split()
         err_str = self.__handle_err(args, 1)
         if err_str:
@@ -189,11 +195,19 @@ class HBNBCommand(cmd.Cmd):
                 print("*** Unknown syntax: {}".format(line))
         else:
             print("*** Unknown syntax: {}".format(line))
-    def do_EOF(self, line):
-        """EOF command to exit the program\n"""
-        return True
 
     def __handle_err(self, args, ac, ins_list=None):
+        """
+        Handles errors for commands that require a class name and an instance id.
+
+        Args:
+            args (list): The arguments from the console command.
+            ac (int): The number of arguments required for the command.
+            ins_list (list, optional): The list of instance ids. Defaults to None.
+
+        Returns:
+            str: An error message if there is an error, or an empty string if there are no errors.
+        """
         if not args:
             return "** class name missing **"
         if args[0] not in self.__cl:
@@ -218,6 +232,15 @@ class HBNBCommand(cmd.Cmd):
         return ""
 
     def __handle_quote(self, string):
+        """
+        Extracts the value from a string that may be surrounded by quotes.
+
+        Args:
+            string (str): The input string from the console.
+
+        Returns:
+            str: The value from the input string. If the string is surrounded by quotes, the value is the string without the quotes. If the string is not surrounded by quotes, the value is the first word in the string.
+        """
         res = re.search(r'"(.*?)"', string)
         if res:
             return res.group(1)
