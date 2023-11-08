@@ -169,7 +169,6 @@ class HBNBCommand(cmd.Cmd):
         args = re.match(r"^(\w+)\.(\w+)\((.*)\)", line)
         if args:
             args = args.groups()
-            print(args)
 
         if len(args) > 1:
             if args[1] == "all":
@@ -182,10 +181,8 @@ class HBNBCommand(cmd.Cmd):
                 self.do_destroy(args[0] + " " + args[2])
             elif args[1] == "update":
                 res = re.search(r"{(.*?)}", args[2])
-                print("args: ", args[2])
                 if res:
                     obj = eval("{}{}{}".format("{", res.group(1), "}"))
-                    print("obj: {}".format(obj))
                     for k, v in obj.items():
                         self.do_update(
                             "{} {} {} {}".format(args[0], args[2].split(",")[0], k, v)
