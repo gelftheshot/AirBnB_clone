@@ -166,19 +166,40 @@ class HBNBCommand(cmd.Cmd):
         Args:
             line (str): The input line from the console.
         """
-        args = line.split(".")
+        args = re.match(r"^(\w+)\.(\w+)\((.*)\)", line)
+        if args:
+            args = args.groups()
+            print(args)
+
         if len(args) > 1:
-            if args[1] == "all()":
+            if args[1] == "all":
                 self.do_all(args[0])
-            elif args[1] == "count()":
+            elif args[1] == "count":
                 self.do_count(args[0])
-            elif args[1][:5] == "show(":
-                self.do_show(args[0] + " " + args[1][5:-1])
-            elif args[1][:8] == "destroy(":
-                self.do_destroy(args[0] + " " + args[1][8:-1])
-            elif args[1][:7] == "update(" and args[1][-1] == ")":
-                pass
-                
+            elif args[1] == "show":
+                self.do_show(args[0] + " " + args[2])
+            elif args[1] == "destroy":
+                self.do_destroy(args[0] + " " + args[2])
+            elif args[1] == "update":
+                res = re.search(r"{(.*?)}", args[2])
+                print("args: ", args[2])
+                if res:
+                    obj = eval("{}{}{}".format("{", res.group(1), "}"))
+                    print("obj: {}".format(obj))
+                    for k, v in obj.items():
+                        self.do_update(
+                            "{} {} {} {}".format(args[0], args[2].split(",")[0], k, v)
+                        )
+                else:
+                    update_args = args[2].split(",")
+
+                    if len(update_args) == 3:
+                        self.do_update(
+                            "{} {} {} {}".format(
+                                args[0], update_args[0], update_args[1], update_args[2]
+                            )
+                        )
+
         else:
             print("*** Unknown syntax: {}".format(line))
 
@@ -232,7 +253,7 @@ class HBNBCommand(cmd.Cmd):
             return res.group(1)
         else:
             return string.split()[0]
-    
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
