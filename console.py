@@ -173,7 +173,6 @@ class HBNBCommand(cmd.Cmd):
             elif args[1][:7] == "update(" and args[1][-1] == ")":
                 update_args = args[1][7:-1].split(", ")
                 if len(update_args) == 2 and update_args[1][0] == "{" and update_args[1][-1] == "}":
-                    # Directly update the object's dictionary in the storage
                     obj_dict = models.storage.all()
                     obj_key = "{}.{}".format(args[0], update_args[0])
                     if obj_key in obj_dict:
@@ -183,7 +182,6 @@ class HBNBCommand(cmd.Cmd):
                     else:
                         print("*** No instance found: {}".format(obj_key))
                 elif len(update_args) == 3:
-                    # Call do_update to handle the update
                     self.do_update(args[0] + " " + update_args[0] + " " + update_args[1] + " " + update_args[2])
                 else:
                     print("*** Unknown syntax: {}".format(line))
