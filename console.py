@@ -177,22 +177,8 @@ class HBNBCommand(cmd.Cmd):
             elif args[1][:8] == "destroy(":
                 self.do_destroy(args[0] + " " + args[1][8:-1])
             elif args[1][:7] == "update(" and args[1][-1] == ")":
-                update_args = args[1][7:-1].split(", ")
-                if len(update_args) == 2 and update_args[1][0] == "{" and update_args[1][-1] == "}":
-                    obj_dict = models.storage.all()
-                    obj_key = "{}.{}".format(args[0], update_args[0])
-                    if obj_key in obj_dict:
-                        attr_dict = eval(update_args[1])
-                        obj_dict[obj_key].__dict__.update(attr_dict)
-                        models.storage.save()
-                    else:
-                        print("*** No instance found: {}".format(obj_key))
-                elif len(update_args) == 3:
-                    self.do_update(args[0] + " " + update_args[0] + " " + update_args[1] + " " + update_args[2])
-                else:
-                    print("*** Unknown syntax: {}".format(line))
-            else:
-                print("*** Unknown syntax: {}".format(line))
+                pass
+                
         else:
             print("*** Unknown syntax: {}".format(line))
 
