@@ -117,6 +117,9 @@ class HBNBCommand(cmd.Cmd):
                 print(cls_strs)
 
     def __is_float(self, input):
+        """
+            check out if the number is float or not
+        """
         try:
             float(input)
             return True
@@ -245,6 +248,9 @@ class HBNBCommand(cmd.Cmd):
         return ""
 
     def __handle_quote(self, val):
+        """
+            remove "" from string
+        """
         if val[0] == val[-1] == "'":
             return val[1:-1]  
         return val
