@@ -12,6 +12,7 @@ from models.state import State
 from models.user import User
 
 
+
 class HBNBCommand(cmd.Cmd):
     __cl = ("Amenity", "BaseModel", "City", "Place", "Review", "State", "User")
 
@@ -115,6 +116,13 @@ class HBNBCommand(cmd.Cmd):
                 ]
                 print(cls_strs)
 
+    def __is_float(self, input):
+        try:
+            float(input)
+            return True
+        except ValueError:
+            return False
+
     def do_update(self, line):
         """
         Updates an instance based on the class name and id by adding or updating attribute.
@@ -130,14 +138,19 @@ class HBNBCommand(cmd.Cmd):
         else:
             id = "{}.{}".format(args[0], args[1])
             key = args[2]
-            val = self.__handle_quote(" ".join(args[3:]))
-            if key in obj[id].__dict__.keys():
-                try:
+            val = " ".join(args[3:])
+            try:
+                if key in obj[id].__dict__.keys():
                     val = type(obj[id].__dict__[key])(val)
-                    setattr(obj[id], key, val)
-                    models.storage.save()
-                except ValueError:
-                    print("Invalid value for {}".format(key))
+                elif val.isdigit():
+                    val = int(val)
+                elif self.__is_float(val):
+                    val = float(val)
+                if isinstance(val, str):  # only handle quotes if val is a string
+                    val = self.__handle_quote(val)
+                setattr(obj[id], key, val)
+            except ValueError:
+                print("Invalid value for {}".format(key))
 
     def do_count(self, line):
         """
@@ -160,17 +173,20 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def default(self, line: str):
-        """
-        Default method for command line. Handles the commands in the format <class name>.<command>(<parameters>).
+        """Default method for command line. Handles the commands in the format <class name>.<command>(<parameters>).
 
         Args:
             line (str): The input line from the console.
         """
-        args = re.match(r"^(\w+)\.(\w+)\((.*)\)", line)
-        if args:
+        args = re.match(r"^(\w*)\.(\w+)\((.*)\)", line)
+        if args :
             args = args.groups()
-
-        if len(args) > 1:
+        if args is not None:
+            if args[0] not in self.__cl and args[0] != "":
+                print("** class doesn't exist **")
+                return
+            
+        if args is not None and len(args) > 1:
             if args[1] == "all":
                 self.do_all(args[0])
             elif args[1] == "count":
@@ -188,15 +204,8 @@ class HBNBCommand(cmd.Cmd):
                             "{} {} {} {}".format(args[0], args[2].split(",")[0], k, v)
                         )
                 else:
-                    update_args = args[2].split(",")
-
-                    if len(update_args) == 3:
-                        self.do_update(
-                            "{} {} {} {}".format(
-                                args[0], update_args[0], update_args[1], update_args[2]
-                            )
-                        )
-
+                    update_args = " ".join(args[2].split(","))
+                    self.do_update(args[0] + " " + update_args)
         else:
             print("*** Unknown syntax: {}".format(line))
 
@@ -235,21 +244,10 @@ class HBNBCommand(cmd.Cmd):
 
         return ""
 
-    def __handle_quote(self, string):
-        """
-        Extracts the value from a string that may be surrounded by quotes.
-
-        Args:
-            string (str): The input string from the console.
-
-        Returns:
-            str: The value from the input string. If the string is surrounded by quotes, the value is the string without the quotes. If the string is not surrounded by quotes, the value is the first word in the string.
-        """
-        res = re.search(r'"(.*?)"', string)
-        if res:
-            return res.group(1)
-        else:
-            return string.split()[0]
+    def __handle_quote(self, val):
+        if val[0] == val[-1] == "'":
+            return val[1:-1]  
+        return val
 
 
 if __name__ == "__main__":
