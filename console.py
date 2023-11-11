@@ -1,7 +1,8 @@
 #!/usr/bin/python3
+""" importing important modules"""
 import cmd
 import re
-""" importing important modules"""
+
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -27,6 +28,9 @@ the last nonempty command entered. However, in this class, it does nothing.
 """
 
 class HBNBCommand(cmd.Cmd):
+    """ This is the main class for the console.
+
+    """
     __cl = ("Amenity", "BaseModel", "City", "Place", "Review", "State", "User")
 
     prompt = "(hbnb) "
