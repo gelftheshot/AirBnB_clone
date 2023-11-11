@@ -47,6 +47,7 @@ class FileStorage:
         Args:
             obj (BaseModel): The object to add to the file storage.
         """
+        
         class_name = obj.__class__.__name__
         id = obj.id
         self.__objects["{}.{}".format(class_name, id)] = obj
