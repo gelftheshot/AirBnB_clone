@@ -12,6 +12,7 @@ from models import storage
 
 import os
 
+
 class BaseModelTest(unittest.TestCase):
     @classmethod
     def setUpClass(self):
@@ -31,6 +32,7 @@ class BaseModelTest(unittest.TestCase):
         except IOError:
             pass
         FileStorage._FileStorage__objects = {}
+
 
 class TestFileStorage_init(BaseModelTest):
 
@@ -59,7 +61,7 @@ class TestFileStorage_new(BaseModelTest):
     def test_new(self):
         self.storage.new(self.obj)
         self.assertIn(self.obj, self.storage.all().values())
-    
+
     def test_base_model_new(self):
         base_model = BaseModel()
         self.storage.new(base_model)
@@ -71,13 +73,13 @@ class TestFileStorage_new(BaseModelTest):
         self.storage.new(user)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("User." + user.id, storage.all().keys())
-    
+
     def test_state_new(self):
         state = State()
         self.storage.new(state)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("State." + state.id, storage.all().keys())
-    
+
     def test_city_new(self):
         city = City()
         self.storage.new(city)
@@ -95,23 +97,25 @@ class TestFileStorage_new(BaseModelTest):
         self.storage.new(review)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("Review." + review.id, storage.all().keys())
+
     def test_amenity_new(self):
         amenity = Amenity()
         self.storage.new(amenity)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("Amenity." + amenity.id, storage.all().keys())
-    
+
     def test_new_with_None(self):
         with self.assertRaises(AttributeError):
             self.storage.new(None)
+
     def test_new_with_no_args(self):
         with self.assertRaises(TypeError):
             self.storage.new()
-    
+
     def test_new_with_two_args(self):
         with self.assertRaises(TypeError):
             self.storage.new(self.obj, None)
-    
+
     def test_new_with_three_args(self):
         with self.assertRaises(TypeError):
             self.storage.new(self.obj, None, None)
@@ -134,14 +138,14 @@ class TestFileStorage_save(BaseModelTest):
         self.storage.save()
         with open("file.json", "r") as f:
             self.assertIn("BaseModel." + base_model.id, f.read())
-    
+
     def test_save_user(self):
         user = User()
         self.storage.new(user)
         self.storage.save()
         with open("file.json", "r") as f:
             self.assertIn("User." + user.id, f.read())
-    
+
     def test_save_state(self):
         state = State()
         self.storage.new(state)
@@ -169,7 +173,7 @@ class TestFileStorage_save(BaseModelTest):
         self.storage.save()
         with open("file.json", "r") as f:
             self.assertIn("Review." + review.id, f.read())
-    
+
     def test_save_amenity(self):
         amenity = Amenity()
         self.storage.new(amenity)
@@ -180,7 +184,7 @@ class TestFileStorage_save(BaseModelTest):
     def test_save_with_arg(self):
         with self.assertRaises(TypeError):
             self.storage.save(None)
-    
+
     def test_save_with_two_args(self):
         with self.assertRaises(TypeError):
             self.storage.save(self.obj, None)
@@ -188,7 +192,6 @@ class TestFileStorage_save(BaseModelTest):
     def test_save_with_three_args(self):
         with self.assertRaises(TypeError):
             self.storage.save(self.obj, None, None)
-
 
 
 class TestFileStorage_reload(BaseModelTest):
@@ -214,4 +217,3 @@ class TestFileStorage_reload(BaseModelTest):
         self.assertIn("Place." + place.id, dic)
         self.assertIn("Review." + review.id, dic)
         self.assertIn("Amenity." + amenity.id, dic)
-
