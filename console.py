@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import cmd
 import re
-
+""" importing important modules"""
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -11,7 +11,20 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
+"""
+This is the main class for the console. It provides a command line interface that allows 
+users to interact with the storage system. The console supports various commands for 
+manipulating the data, such as creating new objects, showing existing objects, 
+destroying objects, and more.
 
+Each command is implemented as a method on this class. The method's name starts with 
+'do_', followed by the command name. For example, the 'create' command is implemented 
+by the 'do_create' method.
+
+The console also supports an 'emptyline' method, which is called when an empty line 
+is entered in response to the prompt. If this method is not overridden, it repeats 
+the last nonempty command entered. However, in this class, it does nothing.
+"""
 
 class HBNBCommand(cmd.Cmd):
     __cl = ("Amenity", "BaseModel", "City", "Place", "Review", "State", "User")
