@@ -38,6 +38,9 @@ class BaseModel:
             updated_at (datetime): Current date
               and time when instance is updated.
         """
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         if kwargs:
             for k, v in kwargs.items():
                 if k in ("created_at", "updated_at"):
@@ -45,9 +48,6 @@ class BaseModel:
                 else:
                     self.__dict__[k] = v
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
             models.storage.new(self)
 
     def __str__(self):
