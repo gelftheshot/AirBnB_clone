@@ -36,7 +36,7 @@ class BaseModelTest(unittest.TestCase):
 
 class TestFileStorage_init(BaseModelTest):
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.storage = FileStorage()
     def test_init(self):
         self.assertIsInstance(self.storage, FileStorage)
@@ -64,13 +64,14 @@ class TestFileStorage_new(BaseModelTest):
 
     def setUp(self):
         self.storage = FileStorage()
-        self.obj = BaseModel()
+        
 
     def test_new(self):
         self.storage.new(self.obj)
         self.assertIn(self.obj, self.storage.all().values())
 
     def test_base_model_new(self):
+        self.obj = BaseModel()
         base_model = BaseModel()
         self.storage.new(base_model)
         self.assertIn(self.obj, self.storage.all().values())
@@ -78,36 +79,42 @@ class TestFileStorage_new(BaseModelTest):
 
     def test_user_new(self):
         user = User()
+        self.obj = User()
         self.storage.new(user)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("User." + user.id, storage.all().keys())
 
     def test_state_new(self):
         state = State()
+        self.obj = State()
         self.storage.new(state)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("State." + state.id, storage.all().keys())
 
     def test_city_new(self):
         city = City()
+        self.obj = City()
         self.storage.new(city)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("City." + city.id, storage.all().keys())
 
     def test_place_new(self):
         place = Place()
+        self.obj = Place()
         self.storage.new(place)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("Place." + place.id, storage.all().keys())
 
     def test_review_new(self):
         review = Review()
+        self.obj = Review()
         self.storage.new(review)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("Review." + review.id, storage.all().keys())
 
     def test_amenity_new(self):
         amenity = Amenity()
+        self.obj = Amenity()
         self.storage.new(amenity)
         self.assertIn(self.obj, self.storage.all().values())
         self.assertIn("Amenity." + amenity.id, storage.all().keys())
