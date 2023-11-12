@@ -219,9 +219,11 @@ class TestFileStorage_reload(BaseModelTest):
         self.assertIn("Review." + review.id, dic)
         self.assertIn("Amenity." + amenity.id, dic)
 
+
     def test_reload_with_arg(self):
-        self.assertRaises(TypeError, storage.reload())
-        
+        with self.assertRaises(TypeError):
+            storage.reload(None)
+
 
 if __name__ == "__main__":
     unittest.main()
