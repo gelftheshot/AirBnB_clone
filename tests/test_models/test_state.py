@@ -189,7 +189,6 @@ class TestStateToDict(unittest.TestCase):
         self.assertIn("int_attr", state_dict)
         self.assertEqual(state_dict["int_attr"], 66)
 
-        
 
 if __name__ == "__main__":
     unittest.main()
