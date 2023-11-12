@@ -50,7 +50,7 @@ class TestUser(unittest.TestCase):
         self.assertTrue("email" in self.user.__dict__)
         self.assertIsInstance(self.user.email, str)
     def test_new_instance_stored_in_objects(self):
-        self.assertIn(User(), models.storage.all().values())
+        self.assertIn(User(), storage.all().values())
 
     def test_id_is_public_str(self):
         self.assertEqual(str, type(User().id))

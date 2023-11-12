@@ -43,6 +43,31 @@ class TestAmenityInit(unittest.TestCase):
     def test_updated_at_not_none(self):
         """Tests that the `updated_at` attribute is not `None`."""
         self.assertIsNotNone(self.amenity.updated_at)
+    def test_no_args_instantiates(self):
+        self.assertEqual(Amenity, type(Amenity()))
+
+    def test_new_instance_stored_in_objects(self):
+        self.assertIn(Amenity(),storage.all().values())
+
+    def test_id_is_public_str(self):
+        self.assertEqual(str, type(Amenity().id))
+
+    def test_created_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(Amenity().created_at))
+
+    def test_updated_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(Amenity().updated_at))
+
+    def test_name_is_public_class_attribute(self):
+        am = Amenity()
+        self.assertEqual(str, type(Amenity.name))
+        self.assertIn("name", dir(Amenity()))
+        self.assertNotIn("name", am.__dict__)
+
+    def test_two_amenities_unique_ids(self):
+        am1 = Amenity()
+        am2 = Amenity()
+        self.assertNotEqual(am1.id, am2.id)
 
     def test_created_at_is_datetime(self):
         """Tests that the `created_at` attribute is of type `datetime`."""
@@ -156,8 +181,6 @@ class TestAmenityInit(unittest.TestCase):
         self.assertIsInstance(self.amenity.updated_at, datetime)
 
 
-    def test_id_is_unique(self):
-        self.assertNotEqual(self.amenity1.id, self.amenity2.id)
 
     def test_amenity_created_at_is_public_datetime(self):
         self.assertEqual(datetime, type(Amenity().created_at))

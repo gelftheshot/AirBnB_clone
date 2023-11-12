@@ -36,7 +36,43 @@ class TestReview(unittest.TestCase):
 
     def test_created_at_is_datetime(self):
         self.assertIsInstance(self.review.created_at, datetime)
+    def test_no_args_instantiates(self):
+        self.assertEqual(Review, type(Review()))
 
+    def test_new_instance_stored_in_objects(self):
+        self.assertIn(Review(), storage.all().values())
+
+    def test_id_is_public_str(self):
+        self.assertEqual(str, type(Review().id))
+
+    def test_created_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(Review().created_at))
+
+    def test_updated_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(Review().updated_at))
+
+    def test_place_id_is_public_class_attribute(self):
+        rv = Review()
+        self.assertEqual(str, type(Review.place_id))
+        self.assertIn("place_id", dir(rv))
+        self.assertNotIn("place_id", rv.__dict__)
+
+    def test_user_id_is_public_class_attribute(self):
+        rv = Review()
+        self.assertEqual(str, type(Review.user_id))
+        self.assertIn("user_id", dir(rv))
+        self.assertNotIn("user_id", rv.__dict__)
+
+    def test_text_is_public_class_attribute(self):
+        rv = Review()
+        self.assertEqual(str, type(Review.text))
+        self.assertIn("text", dir(rv))
+        self.assertNotIn("text", rv.__dict__)
+
+    def test_two_reviews_unique_ids(self):
+        rv1 = Review()
+        rv2 = Review()
+        self.assertNotEqual(rv1.id, rv2.id)
     def test_updated_at_is_datetime(self):
         self.assertIsInstance(self.review.updated_at, datetime)
 

@@ -32,7 +32,31 @@ class TestState(unittest.TestCase):
 
     def test_updated_at_not_none(self):
         self.assertIsNotNone(self.state.updated_at)
+    def test_no_args_instantiates(self):
+        self.assertEqual(State, type(State()))
 
+    def test_new_instance_stored_in_objects(self):
+        self.assertIn(State(), storage.all().values())
+
+    def test_id_is_public_str(self):
+        self.assertEqual(str, type(State().id))
+
+    def test_created_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(State().created_at))
+
+    def test_updated_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(State().updated_at))
+
+    def test_name_is_public_class_attribute(self):
+        st = State()
+        self.assertEqual(str, type(State.name))
+        self.assertIn("name", dir(st))
+        self.assertNotIn("name", st.__dict__)
+
+    def test_two_states_unique_ids(self):
+        st1 = State()
+        st2 = State()
+        self.assertNotEqual(st1.id, st2.id)
     def test_created_at_is_datetime(self):
         self.assertIsInstance(self.state.created_at, datetime)
 
