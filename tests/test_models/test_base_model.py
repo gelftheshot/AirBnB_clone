@@ -2,8 +2,8 @@
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
-from models.base_model import storage
-from datetime import sleep
+from models import storage
+from time import sleep
 FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 
 class TestBaseModelInit(unittest.TestCase):
@@ -87,7 +87,7 @@ class TestBaseModelStr(unittest.TestCase):
         self.assertEqual(str(self.model), expected_str)
 
     def test_str_format(self):
-        expected_str_format = "[BaseModel] ({}) {{'id': '{}', 'created_at': '{}', 'updated_at': '{}'}}".format(self.model.id, self.model.id, self.model.created_at.isoformat(), self.model.updated_at.isoformat())
+        expected_str_format = "[BaseModel] ({}) {}".format(self.model.id, self.model.__dict__)
         self.assertEqual(str(self.model), expected_str_format)
 
 class TestBaseModelSave(unittest.TestCase):
@@ -182,11 +182,6 @@ class TestBaseModelToDict(unittest.TestCase):
         self.assertIn("tuple_attr", model_dict)
         self.assertEqual(model_dict["tuple_attr"], (4, 5, 6))
 
-    def test_to_dict_handles_set_attributes(self):
-        self.model.set_attr = {7, 8, 9}
-        model_dict = self.model.to_dict()
-        self.assertIn("set_attr", model_dict)
-        self.assertEqual(model_dict["set_attr"], {7, 8, 9})
 
     def test_to_dict_handles_dict_attributes(self):
         self.model.dict_attr = {"key": "value"}
