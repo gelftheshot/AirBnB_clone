@@ -2,7 +2,8 @@
 from models.base_model import BaseModel
 
 """
-The Amenity class inherits from BaseModel and adds an additional attribute for name.
+The Amenity class inherits from BaseModel
+ and adds an additional attribute for name.
 
 Attributes:
     name (str): The name of the amenity.
@@ -10,6 +11,7 @@ Attributes:
 Methods:
     Inherited from BaseModel.
 """
+
 
 class Amenity(BaseModel):
     """

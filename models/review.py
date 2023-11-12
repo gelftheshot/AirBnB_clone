@@ -2,7 +2,8 @@
 from models.base_model import BaseModel
 
 """
-The Review class inherits from BaseModel and adds additional attributes for place_id, user_id, and text.
+The Review class inherits from BaseMode
+ and adds additional attributes for place_id, user_id, and text.
 
 Attributes:
     place_id (str): The id of the place the review is for.
@@ -13,9 +14,11 @@ Methods:
     Inherited from BaseModel.
 """
 
+
 class Review(BaseModel):
     """
-    This class represents a Review and inherits from the BaseModel class.
+    This class represents a Review and inherit
+      from the BaseModel class.
     """
     place_id = ""
     user_id = ""

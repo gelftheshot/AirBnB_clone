@@ -7,53 +7,119 @@ from time import sleep
 from models import storage
 FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 
+
 class TestAmenityInit(unittest.TestCase):
+    """Defines `unittest.TestCase` tests for the `Amenity` class
+    instantiation and initialization.
+    """
+
     def setUp(self):
+        """Defines instructions that will be executed before each test."""
         self.amenity = Amenity()
         self.amenity.name = ""
 
     def test_init(self):
+        """Tests instantiation of the `Amenity` class."""
         self.assertIsInstance(self.amenity, Amenity)
         self.assertIsInstance(self.amenity.created_at, datetime)
         self.assertIsInstance(self.amenity.updated_at, datetime)
 
     def test_inheritance(self):
+        """Tests inheritance of the `Amenity` class."""
         self.assertTrue(issubclass(Amenity, BaseModel))
 
     def test_id_is_string(self):
+        """Tests that the `id` attribute is of type `str`."""
         self.assertIsInstance(self.amenity.id, str)
 
     def test_id_not_empty(self):
+        """Tests that the `id` attribute is not an empty string."""
         self.assertNotEqual(self.amenity.id, "")
 
     def test_created_at_not_none(self):
+        """Tests that the `created_at` attribute is not `None`."""
         self.assertIsNotNone(self.amenity.created_at)
 
     def test_updated_at_not_none(self):
+        """Tests that the `updated_at` attribute is not `None`."""
         self.assertIsNotNone(self.amenity.updated_at)
 
     def test_created_at_is_datetime(self):
+        """Tests that the `created_at` attribute is of type `datetime`."""
         self.assertIsInstance(self.amenity.created_at, datetime)
 
     def test_updated_at_is_datetime(self):
+        """Tests that the `updated_at` attribute is of type `datetime`."""
         self.assertIsInstance(self.amenity.updated_at, datetime)
 
     def test_name_attribute(self):
+        """Tests that the `name` attribute exists."""
         self.assertTrue("name" in self.amenity.__dict__)
+
+    def test_name_is_string(self):
+        """Tests that the `name` attribute is of type `str`."""
         self.assertIsInstance(self.amenity.name, str)
 
-class TestAmenityInheritedInit(unittest.TestCase):
-    def setUp(self):
-        self.amenity = Amenity()
-        self.amenity1 = Amenity()
-        self.amenity2 = Amenity()
-        self.amenity.name = ""
-    def test_init(self):
-        self.assertIsInstance(self.amenity, Amenity)
+    def test_created_at_is_datetime(self):
+        """Tests that Amenity created_at is a datetime"""
         self.assertIsInstance(self.amenity.created_at, datetime)
+
+    def test_updated_at_is_datetime(self):
+        """Tests that Amenity updated_at is a datetime"""
         self.assertIsInstance(self.amenity.updated_at, datetime)
 
-    def test_id_is_string(self):
+    def test_name_attribute(self):
+        """Tests that Amenity has name attribute"""
+        self.assertTrue("name" in self.amenity.__dict__)
+        self.assertIsInstance(self.amenity.name, str)
+    def test_created_at_is_datetime(self):
+        """Test Amenity created_at."""
+        self.assertIsInstance(self.amenity.created_at, datetime)
+
+    def test_updated_at_is_datetime(self):
+        """Test Amenity updated_at."""
+        self.assertIsInstance(self.amenity.updated_at, datetime)
+
+    def test_name_attribute(self):
+        """Test Amenity name."""
+        self.assertTrue("name" in self.amenity.__dict__)
+        self.assertIsInstance(self.amenity.name, str)
+    def test_id_not_empty(self):
+        """
+        Test that id is not empty
+        """
+        self.assertNotEqual(self.amenity.id, "")
+
+    def test_created_at_not_none(self):
+        """
+        Test that created_at is not none
+        """
+        self.assertIsNotNone(self.amenity.created_at)
+
+    def test_updated_at_not_none(self):
+        """
+        Test that updated_at is not none
+        """
+        self.assertIsNotNone(self.amenity.updated_at)
+
+    def test_created_at_is_datetime(self):
+        """
+        Test that created_at is of type datetime
+        """
+        self.assertIsInstance(self.amenity.created_at, datetime)
+
+    def test_updated_at_is_datetime(self):
+        """
+        Test that updated_at is of type datetime
+        """
+        self.assertIsInstance(self.amenity.updated_at, datetime)
+
+    def test_name_attribute(self):
+        """
+        Test that amenity has attribute name, and it's of type string
+        """
+        self.assertTrue("name" in self.amenity.__dict__)
+        self.assertIsInstance(self.amenity.name, str)
         self.assertIsInstance(self.amenity.id, str)
 
     def test_id_not_empty(self):
@@ -151,6 +217,7 @@ class TestAmenitySave(unittest.TestCase):
         self.amenity.save()
         updated_at_after_save = self.amenity.updated_at
         self.assertNotEqual(updated_at_before_save, updated_at_after_save)
+
 
 class TestAmenityToDict(unittest.TestCase):
     def setUp(self):

@@ -1,13 +1,18 @@
 #!/usr/bin/python3
 """
-This module contains the BaseModel class which serves as the "base" for all other
-model classes in this application. It includes common attributes and methods
+This module contains the BaseModel
+ class which serves as the "base" for all other
+model classes in this application.
+ It includes common attributes and methods
 that can be inherited by subclasses.
 
 Imported modules:
-    uuid: This module is used to generate unique IDs for instances.
-    datetime: This module is used to handle date and time information.
-    models: This module contains the application's models.
+    uuid: This module is used
+      to generate unique IDs for instances.
+    datetime: This module is used to handle date
+      and time information.
+    models: This module contains the
+      application's models.
 """
 import uuid
 from datetime import datetime
@@ -28,8 +33,10 @@ class BaseModel:
 
         Attributes:
             id (str): Unique id generated using uuid.
-            created_at (datetime): Current date and time when instance is created.
-            updated_at (datetime): Current date and time when instance is updated.
+            created_at (datetime): Current date and
+              time when instance is created.
+            updated_at (datetime): Current date
+              and time when instance is updated.
         """
         if kwargs:
             for k, v in kwargs.items():
@@ -45,14 +52,15 @@ class BaseModel:
 
     def __str__(self):
         """
-        Return the string representation of the BaseModel instance.
+        Return the string representation of the
+          BaseModel instance.
 
         Returns:
-            str: String representation of the BaseModel instance.
+            str: String representation of the BaseMode
+              instance.
         """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
-
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """
@@ -63,7 +71,8 @@ class BaseModel:
 
     def to_dict(self):
         """
-        Return a dictionary containing all keys/values of the instance’s __dict__.
+        Return a dictionary containing all keys/values
+          of the instance’s __dict__.
         """
         return {
             **self.__dict__,

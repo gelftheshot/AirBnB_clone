@@ -2,7 +2,8 @@
 from models.base_model import BaseModel
 
 """
-The User class inherits from BaseModel and adds additional attributes for email, password, first_name, and last_name.
+The User class inherits from BaseModel
+ and adds additional attributes for email, password, first_name, and last_name.
 
 Attributes:
     email (str): The email of the user.
@@ -13,6 +14,7 @@ Attributes:
 Methods:
     Inherited from BaseModel.
 """
+
 
 class User(BaseModel):
     """
