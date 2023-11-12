@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+This module contains the unit tests for the User class in the AirBnB clone project.
+"""
+
 import unittest
 from models.user import User
 from models.base_model import BaseModel
@@ -9,6 +13,9 @@ from models import storage
 FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 
 class TestUser(unittest.TestCase):
+    """
+    This class contains the unit tests for the User class.
+    """
     def setUp(self):
         self.user = User()
         self.user.email = ""
@@ -57,6 +64,9 @@ class TestUser(unittest.TestCase):
         
 
 class Test_user_inherted_init(unittest.TestCase):
+    """
+    This class contains the unit tests for the User class inherited init method.
+    """
     def setUp(self):
         self.user = User()
 
@@ -125,7 +135,9 @@ class Test_user_inherted_init(unittest.TestCase):
         self.assertEqual(str, type(User().id))
 
 class Test_user_str(unittest.TestCase):
-    
+    """
+    This class contains the unit tests for the User class __str__ method.
+    """
     def setUp(self):
         self.user = User()
 
@@ -138,36 +150,42 @@ class Test_user_str(unittest.TestCase):
         self.assertEqual(str(self.user), expected_str_format)
 
 class TestUserSave(unittest.TestCase):
-        def setUp(self):
-            self.user = User()
+    """
+    This class contains the unit tests for the User class save method.
+    """
+    def setUp(self):
+        self.user = User()
 
-        def test_save(self):
-            old_updated_at = self.user.updated_at
-            self.user.save()
-            self.assertNotEqual(self.user.updated_at, old_updated_at)
+    def test_save(self):
+        old_updated_at = self.user.updated_at
+        self.user.save()
+        self.assertNotEqual(self.user.updated_at, old_updated_at)
 
-        def test_save_does_not_change_created_at(self):
-            old_created_at = self.user.created_at
-            self.user.save()
-            self.assertEqual(self.user.created_at, old_created_at)
+    def test_save_does_not_change_created_at(self):
+        old_created_at = self.user.created_at
+        self.user.save()
+        self.assertEqual(self.user.created_at, old_created_at)
 
-        def test_save_changes_updated_at(self):
-            old_updated_at = self.user.updated_at
-            self.user.save()
-            self.assertNotEqual(self.user.updated_at, old_updated_at)
+    def test_save_changes_updated_at(self):
+        old_updated_at = self.user.updated_at
+        self.user.save()
+        self.assertNotEqual(self.user.updated_at, old_updated_at)
 
-        def test_save_updates_updated_at(self):
-            updated_at_before_save = self.user.updated_at
-            self.user.save()
-            updated_at_after_save = self.user.updated_at
-            self.assertNotEqual(updated_at_before_save, updated_at_after_save)
+    def test_save_updates_updated_at(self):
+        updated_at_before_save = self.user.updated_at
+        self.user.save()
+        updated_at_after_save = self.user.updated_at
+        self.assertNotEqual(updated_at_before_save, updated_at_after_save)
         
-        def test_save_with_arg(self):
-            user = User()
-            with self.assertRaises(TypeError):
-                user.save(12)
+    def test_save_with_arg(self):
+        user = User()
+        with self.assertRaises(TypeError):
+            user.save(12)
 
 class TestUserToDict(unittest.TestCase):
+    """
+    This class contains the unit tests for the User class to_dict method.
+    """
     def setUp(self):
         self.user = User()
         self.user.new_attr = "new attribute value"

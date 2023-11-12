@@ -218,7 +218,6 @@ class TestAmenitySave(unittest.TestCase):
         updated_at_after_save = self.amenity.updated_at
         self.assertNotEqual(updated_at_before_save, updated_at_after_save)
 
-
 class TestAmenityToDict(unittest.TestCase):
     def setUp(self):
         self.amenity = Amenity()
