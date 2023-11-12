@@ -50,7 +50,12 @@ class TestFileStorage_init(BaseModelTest):
 
     def test_objects_is_private_dict(self):
         self.assertEqual(dict, type(self.storage._FileStorage__objects))
-
+    
+    def test_file_storge_with_arg(self):
+        with self.assertRaises(TypeError):
+            FileStorage(None)
+    def test_storage_initializes(self):
+        self.assertEqual(type(storage), FileStorage)
 
 class TestFileStorage_new(BaseModelTest):
 
@@ -107,6 +112,9 @@ class TestFileStorage_new(BaseModelTest):
     def test_new_with_None(self):
         with self.assertRaises(AttributeError):
             self.storage.new(None)
+    def test_new_with_args(self):
+        with self.assertRaises(TypeError):
+            storage.new(BaseModel(), 1)
 
     def test_new_with_no_args(self):
         with self.assertRaises(TypeError):
@@ -124,13 +132,7 @@ class TestFileStorage_new(BaseModelTest):
 class TestFileStorage_save(BaseModelTest):
     def setUp(self):
         self.storage = FileStorage()
-        self.obj = BaseModel()
 
-    def test_save(self):
-        self.storage.new(self.obj)
-        self.storage.save()
-        with open("file.json", "r") as f:
-            self.assertIn(self.obj.id, f.read())
 
     def test_save_base_model(self):
         base_model = BaseModel()
@@ -217,3 +219,10 @@ class TestFileStorage_reload(BaseModelTest):
         self.assertIn("Place." + place.id, dic)
         self.assertIn("Review." + review.id, dic)
         self.assertIn("Amenity." + amenity.id, dic)
+
+    def test_reload_with_arg(self):
+        with self.assertRaises(TypeError):
+            storage.reload(None)
+
+if __name__ == "__main__":
+    unittest.main()
