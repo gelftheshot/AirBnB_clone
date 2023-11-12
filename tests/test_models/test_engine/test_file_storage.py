@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 import unittest
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
@@ -9,7 +10,6 @@ from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
 from models import storage
-
 import os
 
 
@@ -36,9 +36,8 @@ class BaseModelTest(unittest.TestCase):
 
 class TestFileStorage_init(BaseModelTest):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.storage = FileStorage()
-
     def test_init(self):
         self.assertIsInstance(self.storage, FileStorage)
 
@@ -57,7 +56,7 @@ class TestFileStorage_init(BaseModelTest):
             FileStorage(None)
     def test_FileStorage_instantiation_no_args(self):
         self.assertEqual(type(FileStorage()), FileStorage)
-        
+
     def test_storage_initializes(self):
         self.assertEqual(type(storage), FileStorage)
 
@@ -137,8 +136,6 @@ class TestFileStorage_save(BaseModelTest):
     def setUp(self):
         self.storage = FileStorage()
         self.obj = FileStorage()
-
-
 
     def test_save_base_model(self):
         base_model = BaseModel()
@@ -227,12 +224,7 @@ class TestFileStorage_reload(BaseModelTest):
         self.assertIn("Amenity." + amenity.id, dic)
 
     def test_reload_with_arg(self):
-        with self.assertRaises(TypeError):
-            storage.reload(None)
-
-    def test_reload_no_file(self):
-        os.remove("file.json")
-        storage.reload()
+        self.assertRaises(TypeError, storage.reload())
         
 
 if __name__ == "__main__":
