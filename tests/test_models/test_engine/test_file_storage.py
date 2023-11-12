@@ -47,16 +47,17 @@ class TestFileStorage_init(BaseModelTest):
 
     def test_file_path_is_private_str(self):
         self.assertEqual(str, type(self.storage._FileStorage__file_path))
-        
+
     def testFileStorage_objects_is_private_dict(self):
         self.assertEqual(dict, type(FileStorage._FileStorage__objects))
 
-    def test_objects_is_private_dict(self):
-        self.assertEqual(dict, type(self.storage._FileStorage__objects))
     
     def test_file_storge_with_arg(self):
         with self.assertRaises(TypeError):
             FileStorage(None)
+    def test_FileStorage_instantiation_no_args(self):
+        self.assertEqual(type(FileStorage()), FileStorage)
+        
     def test_storage_initializes(self):
         self.assertEqual(type(storage), FileStorage)
 
