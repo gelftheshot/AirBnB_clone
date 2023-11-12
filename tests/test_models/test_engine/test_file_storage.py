@@ -47,6 +47,9 @@ class TestFileStorage_init(BaseModelTest):
 
     def test_file_path_is_private_str(self):
         self.assertEqual(str, type(self.storage._FileStorage__file_path))
+        
+    def testFileStorage_objects_is_private_dict(self):
+        self.assertEqual(dict, type(FileStorage._FileStorage__objects))
 
     def test_objects_is_private_dict(self):
         self.assertEqual(dict, type(self.storage._FileStorage__objects))
