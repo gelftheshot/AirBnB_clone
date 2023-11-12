@@ -74,5 +74,5 @@ class FileStorage:
                 obj = json.load(file)
                 for v in obj.values():
                     self.new(eval(v["__class__"])(**v))
-        except FileNotFoundError as e:
-            raise e
+        except FileNotFoundError:
+            pass

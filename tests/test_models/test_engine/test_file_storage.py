@@ -226,10 +226,10 @@ class TestFileStorage_reload(BaseModelTest):
         with self.assertRaises(TypeError):
             storage.reload(None)
 
-    def test_reload_no_file(self):
-        os.remove("file.json")
-        with self.assertRaises(FileNotFoundError):
-            storage.reload()
+    # def test_reload_no_file(self):
+    #     os.remove("file.json")
+    #     with self.assertRaises(FileNotFoundError):
+    #         storage.reload()
         
 
 if __name__ == "__main__":
