@@ -132,6 +132,8 @@ class TestFileStorage_new(BaseModelTest):
 class TestFileStorage_save(BaseModelTest):
     def setUp(self):
         self.storage = FileStorage()
+        self.obj = FileStorage()
+
 
 
     def test_save_base_model(self):
@@ -223,6 +225,12 @@ class TestFileStorage_reload(BaseModelTest):
     def test_reload_with_arg(self):
         with self.assertRaises(TypeError):
             storage.reload(None)
+
+    def test_reload_no_file(self):
+        os.remove("file.json")
+        with self.assertRaises(FileNotFoundError):
+            storage.reload()
+        
 
 if __name__ == "__main__":
     unittest.main()

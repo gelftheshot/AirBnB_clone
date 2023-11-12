@@ -69,10 +69,9 @@ class FileStorage:
         """
         Loads all objects from the JSON file to the file storage.
         """
-        try:
-            with open(self.__file_path, "r") as file:
-                obj = json.load(file)
-                for v in obj.values():
-                    self.new(eval(v["__class__"])(**v))
-        except FileNotFoundError:
-            pass
+        with open(self.__file_path, "r") as file:
+            obj = json.load(file)
+            for v in obj.values():
+                self.new(eval(v["__class__"])(**v))
+
+            
