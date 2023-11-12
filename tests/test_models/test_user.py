@@ -49,7 +49,34 @@ class TestUser(unittest.TestCase):
     def test_email_attribute(self):
         self.assertTrue("email" in self.user.__dict__)
         self.assertIsInstance(self.user.email, str)
+    def test_new_instance_stored_in_objects(self):
+        self.assertIn(User(), models.storage.all().values())
 
+    def test_id_is_public_str(self):
+        self.assertEqual(str, type(User().id))
+
+    def test_created_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(User().created_at))
+
+    def test_updated_at_is_public_datetime(self):
+        self.assertEqual(datetime, type(User().updated_at))
+
+    def test_email_is_public_str(self):
+        self.assertEqual(str, type(User.email))
+
+    def test_password_is_public_str(self):
+        self.assertEqual(str, type(User.password))
+
+    def test_first_name_is_public_str(self):
+        self.assertEqual(str, type(User.first_name))
+
+    def test_last_name_is_public_str(self):
+        self.assertEqual(str, type(User.last_name))
+
+    def test_two_users_unique_ids(self):
+        us1 = User()
+        us2 = User()
+        self.assertNotEqual(us1.id, us2.id)
     def test_password_attribute(self):
         self.assertTrue("password" in self.user.__dict__)
         self.assertIsInstance(self.user.password, str)
@@ -61,6 +88,12 @@ class TestUser(unittest.TestCase):
     def test_last_name_attribute(self):
         self.assertTrue("last_name" in self.user.__dict__)
         self.assertIsInstance(self.user.last_name, str)
+
+    def test_no_args_instantiates(self):
+        self.assertEqual(User, type(User()))
+
+    def test_new_instance_stored_in_objects(self):
+        self.assertIn(User(), storage.all().values())
         
 
 class Test_user_inherted_init(unittest.TestCase):
