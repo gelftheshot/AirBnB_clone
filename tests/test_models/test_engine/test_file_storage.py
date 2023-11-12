@@ -205,9 +205,13 @@ class TestFileStorage_reload(BaseModelTest):
         place = Place()
         review = Review()
         amenity = Amenity()
-        obj = [base_model, user, state, city, place, review, amenity]
-        for o in obj:
-            storage.new(o)
+        storage.new(base_model)
+        storage.new(user)
+        storage.new(state)
+        storage.new(city)
+        storage.new(place)
+        storage.new(review)
+        storage.new(amenity)
         storage.save()
         storage.reload()
         dic = FileStorage._FileStorage__objects
