@@ -54,12 +54,7 @@ class FileStorage:
         """
 
         class_name = obj.__class__.__name__
-        if obj is not None:
-            id = obj.id
-            self.__objects["{}.{}".format(class_name, id)] = obj
-        else:
-            raise TypeError
-
+        FileStorage.__objects["{}.{}".format(class_name, obj.id)] = obj
     def save(self):
         """
         Saves all objects in the file storage to the JSON file.

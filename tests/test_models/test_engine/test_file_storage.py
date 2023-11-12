@@ -110,7 +110,7 @@ class TestFileStorage_new(BaseModelTest):
         self.assertIn("Amenity." + amenity.id, storage.all().keys())
 
     def test_new_with_None(self):
-        with self.assertRaises(TypeError):
+        with self.assertRaises(AttributeError):
             self.storage.new(None)
     def test_new_with_args(self):
         with self.assertRaises(TypeError):
